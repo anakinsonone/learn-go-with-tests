@@ -85,7 +85,7 @@ func TestWalk(t *testing.T) {
 				"Cow":   "Moo",
 				"Sheep": "Baa",
 			},
-			[]string{"London", "Reykjavik"},
+			[]string{"Moo", "Baa"},
 		},
 	}
 
