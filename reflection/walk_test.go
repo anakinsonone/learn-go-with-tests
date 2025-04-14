@@ -16,6 +16,7 @@ type Profile struct {
 }
 
 func TestWalk(t *testing.T) {
+
 	cases := []struct {
 		Name          string
 		Input         interface{}
@@ -48,10 +49,7 @@ func TestWalk(t *testing.T) {
 			"nested fields",
 			Person{
 				"Chris",
-				Profile{
-					33,
-					"London",
-				},
+				Profile{33, "London"},
 			},
 			[]string{"Chris", "London"},
 		},
@@ -64,7 +62,7 @@ func TestWalk(t *testing.T) {
 			[]string{"Chris", "London"},
 		},
 		{
-			"slice",
+			"slices",
 			[]Profile{
 				{33, "London"},
 				{34, "Reykjavik"},
@@ -72,7 +70,7 @@ func TestWalk(t *testing.T) {
 			[]string{"London", "Reykjavik"},
 		},
 		{
-			"arrays",
+			"slices",
 			[2]Profile{
 				{33, "London"},
 				{34, "Reykjavik"},
@@ -89,7 +87,7 @@ func TestWalk(t *testing.T) {
 			})
 
 			if !reflect.DeepEqual(got, test.ExpectedCalls) {
-				t.Errorf("got %v want %v", got, test.ExpectedCalls)
+				t.Errorf("got %v, want %v", got, test.ExpectedCalls)
 			}
 		})
 	}
@@ -114,7 +112,7 @@ func TestWalk(t *testing.T) {
 
 		go func() {
 			aChannel <- Profile{33, "Berlin"}
-			aChannel <- Profile{33, "Katowice"}
+			aChannel <- Profile{34, "Katowice"}
 			close(aChannel)
 		}()
 
@@ -130,9 +128,9 @@ func TestWalk(t *testing.T) {
 		}
 	})
 
-	t.Run("with functions", func(t *testing.T) {
+	t.Run("with function", func(t *testing.T) {
 		aFunction := func() (Profile, Profile) {
-			return Profile{33, "Berlin"}, Profile{33, "Katowice"}
+			return Profile{33, "Berlin"}, Profile{34, "Katowice"}
 		}
 
 		var got []string
